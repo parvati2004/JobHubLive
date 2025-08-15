@@ -64,16 +64,16 @@ export const login = async (req, res) => {
 
         if (!email || !password || !role) {
             return res.status(400).json({
-                message: "Email, password, and role are required.",
+                message: "Something is missing",
                 success: false
             });
         }
 
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
                 message: "Incorrect email or password.",
-                success: false
+                success: false,
             });
         }
 
@@ -81,21 +81,21 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) {
             return res.status(400).json({
                 message: "Incorrect email or password.",
-                success: false
+                success: false,
             });
         }
 
         if (role !== user.role) {
             return res.status(400).json({
-                message: "Account doesn't exist with the current role.",
+                message: "Account doesn't exist with current role.",
                 success: false
             });
         }
 
         const tokenData = { userId: user._id };
-        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" });
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-        const userData = {
+        const filteredUser = {
             _id: user._id,
             fullname: user.fullname,
             email: user.email,
@@ -107,24 +107,23 @@ export const login = async (req, res) => {
         return res
             .status(200)
             .cookie("token", token, {
-                maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "strict"
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                httpOnly: true,              // prevent JS access
+                secure: process.env.NODE_ENV === "production", // only over HTTPS in prod
+                sameSite: 'none'              // allow cross-site cookie (important for Render frontend)
             })
             .json({
-                message: `Welcome back ${user.fullname}`,
-                user: userData,
+                message: `Welcome back ${filteredUser.fullname}`,
+                user: filteredUser,
                 success: true
             });
+
     } catch (error) {
-        console.error("Login error:", error);
-        return res.status(500).json({
-            message: "Something went wrong during login.",
-            success: false
-        });
+        console.log(error);
+        res.status(500).json({ message: "Internal Server Error", success: false });
     }
 };
+
 
 // LOGOUT
 export const logout = async (req, res) => {
