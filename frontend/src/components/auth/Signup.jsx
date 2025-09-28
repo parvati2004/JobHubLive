@@ -121,7 +121,7 @@ const Signup = () => {
 
                     {/* Radio + File Upload section */}
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <RadioGroup className="flex flex-col sm:flex-row gap-3">
+                        <RadioGroup className="flex flex-row gap-3">
                             <div className="flex items-center space-x-2">
                                 <Input
                                     type="radio"
