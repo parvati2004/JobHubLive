@@ -24,7 +24,7 @@ const FilterCard = () => {
     const [isOpen, setIsOpen] = useState(false); // for mobile toggle
     const dispatch = useDispatch();
 
-    const changeHandler = (value: string) => {
+    const changeHandler = (value) => {
         setSelectedValue(value);
     };
 
