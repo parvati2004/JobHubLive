@@ -38,7 +38,7 @@ const Profile = () => {
                     </div>
                     <Button 
                         onClick={() => setOpen(true)} 
-                        className="w-full sm:w-auto mt-2 sm:mt-0" 
+                        className="w-1/3 lg:w-full m:w-auto mt-2 sm:mt-0" 
                         variant="outline"
                     >
                         <Pen />
