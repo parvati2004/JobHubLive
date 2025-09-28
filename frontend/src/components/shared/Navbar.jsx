@@ -26,7 +26,7 @@ const Navbar = () => {
             }
         } catch (error) {
             console.log(error)
-            toast.error(error.response.data.message)
+            toast.error(error?.response?.data?.message || "Logout failed")
         }
     }
 
@@ -91,14 +91,14 @@ const Navbar = () => {
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Avatar className="cursor-pointer">
-                                    <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                    <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
                                 </Avatar>
                             </PopoverTrigger>
                             <PopoverContent className="w-80">
                                 <div>
                                     <div className='flex gap-2 space-y-2'>
                                         <Avatar className="cursor-pointer">
-                                            <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
                                         </Avatar>
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
@@ -123,9 +123,45 @@ const Navbar = () => {
                     )}
                 </div>
 
-                {/* Mobile Hamburger */}
-                {linksToShow.length > 0 && (
-                    <div className='sm:hidden'>
+                {/* Mobile Avatar + Hamburger */}
+                <div className='sm:hidden flex items-center gap-4'>
+                    {user && (
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Avatar className="cursor-pointer w-8 h-8">
+                                    <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
+                                </Avatar>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64">
+                                <div>
+                                    <div className='flex gap-2 space-y-2'>
+                                        <Avatar className="cursor-pointer w-10 h-10">
+                                            <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
+                                        </Avatar>
+                                        <div>
+                                            <h4 className='font-medium'>{user?.fullname}</h4>
+                                            <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                        </div>
+                                    </div>
+                                    <div className='flex flex-col my-2 text-gray-600'>
+                                        {user.role === 'student' && (
+                                            <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                                                <User2 />
+                                                <Button variant="link"><Link to="/profile">View Profile</Link></Button>
+                                            </div>
+                                        )}
+                                        <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                                            <LogOut />
+                                            <Button onClick={logoutHandler} variant="link">Logout</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    )}
+
+                    {/* Hamburger menu button */}
+                    {linksToShow.length > 0 && (
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
                             className="flex flex-col justify-between w-6 h-5"
@@ -134,11 +170,11 @@ const Navbar = () => {
                             <span className='block w-full h-0.5 bg-black'></span>
                             <span className='block w-full h-0.5 bg-black'></span>
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
-            {/* Mobile Menu  */}
+            {/* Mobile Menu */}
             {linksToShow.length > 0 && mobileOpen && (
                 <div className='sm:hidden bg-white border-t shadow-md'>
                     <ul className='flex flex-col px-4 py-2 gap-2'>
