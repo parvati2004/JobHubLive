@@ -13,14 +13,17 @@ const category = [
     "FullStack Developer"
 ];
 
+
+
 const CategoryCarousel = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const searchJobHandler = (query: string) => {
+    const searchJobHandler = (query) => {
         dispatch(setSearchedQuery(query));
         navigate("/browse");
-    };
+    }
+
+
 
     return (
         <div className="px-4">
