@@ -28,8 +28,13 @@ const Jobs = () => {
         <div>
             <Navbar />
             <div className="max-w-7xl mx-auto mt-5 px-4">
+                {/* Always render FilterCard so hamburger shows on mobile */}
+                <div className="block lg:hidden mb-4">
+                    <FilterCard />
+                </div>
+
                 <div className="flex flex-col lg:flex-row gap-5">
-                    {/* Sidebar: visible on md+ */}
+                    {/* Sidebar only visible on desktop */}
                     <div className="hidden lg:block w-1/4">
                         <FilterCard />
                     </div>
