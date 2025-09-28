@@ -126,7 +126,7 @@ const Navbar = () => {
                 )}
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu  */}
             {!user && mobileOpen && (
                 <div className='sm:hidden bg-white border-t shadow-md'>
                     <ul className='flex flex-col px-4 py-2 gap-2'>
