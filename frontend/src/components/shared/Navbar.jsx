@@ -14,7 +14,7 @@ const Navbar = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [mobileOpen, setMobileOpen] = useState(false) // mobile menu toggle
+    const [mobileOpen, setMobileOpen] = useState(false)
 
     const logoutHandler = async () => {
         try {
@@ -37,6 +37,18 @@ const Navbar = () => {
         { label: "Login", to: "/login" },
         { label: "Signup", to: "/signup" },
     ]
+
+    const mobileRecruiterLinks = [
+        { label: "Companies", to: "/admin/companies" },
+        { label: "Jobs", to: "/admin/jobs" },
+    ]
+
+    // Determine which links to show in mobile
+    const linksToShow = user
+        ? user.role === 'recruiter'
+            ? mobileRecruiterLinks
+            : []
+        : mobileLinks
 
     return (
         <div className='bg-white border-b'>
@@ -112,7 +124,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Hamburger */}
-                {!user && (
+                {linksToShow.length > 0 && (
                     <div className='sm:hidden'>
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
@@ -127,10 +139,10 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu  */}
-            {!user && mobileOpen && (
+            {linksToShow.length > 0 && mobileOpen && (
                 <div className='sm:hidden bg-white border-t shadow-md'>
                     <ul className='flex flex-col px-4 py-2 gap-2'>
-                        {mobileLinks.map((link, index) => (
+                        {linksToShow.map((link, index) => (
                             <li key={index}>
                                 <Link
                                     to={link.to}
