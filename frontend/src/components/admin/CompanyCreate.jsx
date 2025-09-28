@@ -27,9 +27,17 @@ const CompanyCreate = () => {
                 toast.success(res.data.message);
                 const companyId = res?.data?.company?._id;
                 navigate(`/admin/companies/${companyId}`);
-            }
+            } else {
+            // Show error message if success is false
+            toast.error(res?.data?.message || "Something went wrong Or Company already Exists!");
+        }
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
+        toast.error(
+            error?.response?.data?.message || "Failed to register company"
+        );
+
         }
     }
     return (
