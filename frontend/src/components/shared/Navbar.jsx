@@ -47,7 +47,11 @@ const Navbar = () => {
     const linksToShow = user
         ? user.role === 'recruiter'
             ? mobileRecruiterLinks
-            : []
+            : [
+            { label: "Home", to: "/" },
+            { label: "Jobs", to: "/jobs" },
+            { label: "Browse", to: "/browse" },
+          ]
         : mobileLinks
 
     return (
